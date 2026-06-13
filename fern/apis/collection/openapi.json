@@ -44,7 +44,7 @@
       "post": {
         "operationId": "postApiReviews-scraper",
         "summary": "reviews-scraper",
-        "description": "## Reviews Scraper\n\nFetches paginated community reviews for a specific book. Use `nextPageToken` to paginate through additional pages of reviews.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/reviews-scraper`  \n**Headers:**\n\n| Key | Value |\n| --- | --- |\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n``` json\n{\n  \"resourceID\": \"kca://work/amzn1.gr.work.v1.U_UP9GjBCWvFz0W1V-A5fQ\",\n  \"legacyBookID\": 11387515,\n  \"nextPageToken\": null\n}\n```\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| `resourceID` | string | Yes | The Goodreads KCA resource ID for the book (format: `kca://work/...`) |\n| `legacyBookID` | number | No | The legacy numeric Goodreads book ID. Optional when `resourceID` is provided |\n| `nextPageToken` | string \\| null | No | Pagination token from a previous response. Pass `null` for the first page |\n\n---\n\n### Response\n\n**Success** **`200 OK`:**\n\n``` json\n{\n  \"reviews\": [\n    {\n      \"reviewer\": \"string\",\n      \"reviewerURL\": \"string\",\n      \"rating\": \"string\",\n      \"date\": \"string\",\n      \"text\": \"string\"\n    }\n  ],\n  \"nextPageToken\": \"string | null\"\n}\n```\n\n| Field | Type | Description |\n| --- | --- | --- |\n| `reviews` | array | List of review objects |\n| `reviews[].reviewer` | string | Display name of the reviewer |\n| `reviews[].reviewerURL` | string | Goodreads profile URL of the reviewer |\n| `reviews[].rating` | string | Star rating given by the reviewer |\n| `reviews[].date` | string | Date the review was posted |\n| `reviews[].text` | string | Full text of the review |\n| `nextPageToken` | string \\| null | Token to pass in the next request to fetch the following page. `null` when no more pages exist |",
+        "description": "## Reviews Scraper\n\nFetches paginated community reviews for a specific book. Use `nextPageToken` to paginate through additional pages of reviews.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/reviews-scraper`  \n**Headers:**\n\n| Key | Value |\n| --- | --- |\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n``` json\n{\n  \"resourceID\": \"kca://work/amzn1.gr.work.v1.U_UP9GjBCWvFz0W1V-A5fQ\",\n  \"legacyBookID\": 11387515,\n  \"nextPageToken\": null\n}\n\n ```\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| `resourceID` | string | Yes | The Goodreads KCA resource ID for the book (format: `kca://work/...`) |\n| `legacyBookID` | number | No | The legacy numeric Goodreads book ID. Optional when `resourceID` is provided |\n| `nextPageToken` | string | null | No | Pagination token from a previous response. Pass `null` for the first page |\n\n---\n\n### Response\n\n**Success** **`200 OK`****:**\n\n``` json\n{\n  \"reviews\": [\n    {\n      \"reviewer\": \"string\",\n      \"reviewerURL\": \"string\",\n      \"rating\": \"string\",\n      \"date\": \"string\",\n      \"text\": \"string\"\n    }\n  ],\n  \"nextPageToken\": \"string | null\"\n}\n\n ```\n\n| Field | Type | Description |\n| --- | --- | --- |\n| `reviews` | array | List of review objects |\n| `reviews[].reviewer` | string | Display name of the reviewer |\n| `reviews[].reviewerURL` | string | Goodreads profile URL of the reviewer |\n| `reviews[].rating` | string | Star rating given by the reviewer |\n| `reviews[].date` | string | Date the review was posted |\n| `reviews[].text` | string | Full text of the review |\n| `nextPageToken` | string | null | Token to pass in the next request to fetch the following page. `null` when no more pages exist |",
         "responses": {
           "200": {
             "description": "Successful response"
@@ -70,7 +70,8 @@
                   }
                 },
                 "required": [
-                  "resourceID"
+                  "resourceID",
+                  "legacyBookID"
                 ]
               },
               "example": {
@@ -108,7 +109,8 @@
                   }
                 },
                 "required": [
-                  "bookID"
+                  "bookID",
+                  "legacyBookID"
                 ]
               },
               "example": {
