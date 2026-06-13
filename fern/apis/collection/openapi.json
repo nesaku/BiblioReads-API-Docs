@@ -1,0 +1,445 @@
+{
+  "info": {
+    "title": "API Endpoints",
+    "version": "1.0.0",
+    "description": "This collection contains the API endpoints for **BiblioReads** (view more about BiblioReads by visiting the [repo on GitHub](https://github.com/nesaku/BiblioReads)). It covers scraping and search operations across several key domains:\n\n- **Book Search** — Search for books by query (`search-books`, `search-scraper`).\n    \n- **Author Data** — Retrieve author profiles and their associated books (`author-scraper`, `author-books-scraper`).\n    \n- **Similar Books** — Discover books similar to a given title (`similar-scraper`).\n    \n- **Series** — Fetch data about book series (`series-scraper`).\n    \n- **Awards** — Access award winners lists and individual winner pages (`winners-list`, `winner-page`).\n    \n- **Reviews** — Scrape book reviews (`reviews-scraper`).\n    \n- **Public API** — A publicly accessible variant of the author info endpoint (`Public API`).\n    \n\nMost endpoints are POST requests targeting a local development server via the `{{Localhost URL}}` variable, with one endpoint pointing to a `{{Public URL}}` for external access."
+  },
+  "paths": {
+    "/api/author/info": {
+      "post": {
+        "summary": "author-scraper",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "description": "Scrapes profile information for a given author. Accepts a POST request with an author identifier and returns details such as biography, genres, and ratings.",
+        "operationId": "postApiAuthorInfo",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "queryURL"
+                ],
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/author/show/3389.Stephen_King"
+              }
+            }
+          }
+        },
+        "x-fern-sdk-method-name": "author-scraper"
+      }
+    },
+    "/api/quotes/home": {
+      "post": {
+        "summary": "quotes-home",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "description": "Scrapes the list of books written by a specific author. Accepts a POST request with an author identifier and returns a structured list of the author's published works.",
+        "operationId": "postApiQuotesHome",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "queryURL"
+                ],
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/quotes"
+              }
+            }
+          }
+        },
+        "x-fern-sdk-method-name": "quotes-home"
+      }
+    },
+    "/api/quotes/slug": {
+      "post": {
+        "summary": "quotes-search",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "description": "Scrapes the list of books written by a specific author. Accepts a POST request with an author identifier and returns a structured list of the author's published works.",
+        "operationId": "postApiQuotesSlug",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "queryURL"
+                ],
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/quotes/tag?id=Sad"
+              }
+            }
+          }
+        },
+        "x-fern-sdk-method-name": "quotes-search"
+      }
+    },
+    "/api/author/books": {
+      "post": {
+        "summary": "author-books-scraper",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "description": "Scrapes the list of books written by a specific author. Accepts a POST request with an author identifier and returns a structured list of the author's published works.",
+        "operationId": "postApiAuthorBooks",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "page",
+                  "queryURL"
+                ],
+                "properties": {
+                  "page": {
+                    "type": "integer"
+                  },
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "example": {
+                "page": 1,
+                "queryURL": "https://www.goodreads.com/author/list/3389.Stephen_King"
+              }
+            }
+          }
+        },
+        "x-fern-sdk-method-name": "author-books-scraper"
+      }
+    },
+    "/api/list-scraper": {
+      "post": {
+        "summary": "list-scraper",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "description": "Scrapes the list of books written by a specific author. Accepts a POST request with an author identifier and returns a structured list of the author's published works.",
+        "operationId": "postApiList-scraper",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "queryURL"
+                ],
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/list/show/18834.BBC_Top_200_Books"
+              }
+            }
+          }
+        },
+        "x-fern-sdk-method-name": "list-scraper"
+      }
+    },
+    "/api/search/books": {
+      "post": {
+        "summary": "search-books",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "description": "Searches for books by a given query. Accepts a POST request with search parameters in the request body and returns a list of matching books from the BiblioReads database.",
+        "operationId": "postApiSearchBooks",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "queryURL"
+                ],
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/search?q=powerless"
+              }
+            }
+          }
+        },
+        "x-fern-sdk-method-name": "search-books"
+      }
+    },
+    "/api/series-scraper": {
+      "post": {
+        "summary": "series-scraper",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "description": "Scrapes information about a book series. Accepts a POST request with a series identifier and returns details such as the series title, book order, and individual book entries.",
+        "operationId": "postApiSeries-scraper",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "queryURL"
+                ],
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/series/45175-harry-potter"
+              }
+            }
+          }
+        },
+        "x-fern-sdk-method-name": "series-scraper"
+      }
+    },
+    "/api/reviews-scraper": {
+      "post": {
+        "summary": "reviews-scraper",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "description": "Scrapes reviews for a specified book. Accepts a POST request with book identifiers in the body and returns scraped review data from the source.",
+        "operationId": "postApiReviews-scraper",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "resourceID",
+                  "legacyBookID"
+                ],
+                "properties": {
+                  "resourceID": {
+                    "type": "string"
+                  },
+                  "legacyBookID": {
+                    "type": "integer"
+                  },
+                  "nextPageToken": {
+                    "type": [
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "resourceID": "kca://work/amzn1.gr.work.v1.U_UP9GjBCWvFz0W1V-A5fQ",
+                "legacyBookID": 11387515,
+                "nextPageToken": null
+              }
+            }
+          }
+        },
+        "x-fern-sdk-method-name": "reviews-scraper"
+      }
+    },
+    "/api/similar-scraper": {
+      "post": {
+        "summary": "similar-scraper",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "description": "Scrapes a list of books similar to a given title. Accepts a POST request with a book identifier and returns a list of related or recommended books.",
+        "operationId": "postApiSimilar-scraper",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "bookID",
+                  "legacyBookID"
+                ],
+                "properties": {
+                  "bookID": {
+                    "type": "string"
+                  },
+                  "legacyBookID": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "example": {
+                "bookID": "kca://book/amzn1.gr.book.v1.kUA9FFwWCuSBb-AdLEwsvQ",
+                "legacyBookID": 11387515
+              }
+            }
+          }
+        },
+        "x-fern-sdk-method-name": "similar-scraper"
+      }
+    },
+    "/api/awards/winner-page": {
+      "post": {
+        "summary": "winner-page",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "description": "Fetches the detail page for a specific award winner. Accepts a POST request with a winner identifier and returns full details about the awarded book or author.",
+        "operationId": "postApiAwardsWinner-page",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "queryURL"
+                ],
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/choiceawards/best-fiction-books-2023"
+              }
+            }
+          }
+        },
+        "x-fern-sdk-method-name": "winner-page"
+      }
+    },
+    "/api/awards/winners-list": {
+      "post": {
+        "summary": "winners-list",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "description": "Retrieves a list of award-winning books. Accepts a POST request with award category or year filters and returns a structured list of winners.",
+        "operationId": "postApiAwardsWinners-list",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "queryURL"
+                ],
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/choiceawards/best-books-2023"
+              }
+            }
+          }
+        },
+        "x-fern-sdk-method-name": "winners-list"
+      }
+    },
+    "/api/author/info#postApiAuthorInfo2": {
+      "post": {
+        "summary": "Public API",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "description": "Publicly accessible endpoint for retrieving author information. Targets the production public URL (`{{Public URL}}`) rather than localhost, making it suitable for external or client-facing usage.",
+        "operationId": "postApiAuthorInfo2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "queryURL"
+                ],
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/author/show/3389.Stephen_King"
+              }
+            }
+          }
+        },
+        "x-fern-sdk-method-name": "Public API"
+      }
+    }
+  },
+  "openapi": "3.1.0",
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    },
+    {
+      "url": "https://biblioreads.eu.org"
+    }
+  ]
+}

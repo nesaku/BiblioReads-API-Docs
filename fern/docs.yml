@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=https://schema.buildwithfern.dev/docs-yml.json
+
+instances:
+  - url: biblioreads.docs.buildwithfern.com
+    edit-this-page:
+      github:
+        owner: fern-starter
+        repo: planetary-crescent-563699-n3o6v0vy
+        branch: main
+      launch: dashboard
+title: BiblioReads | Documentation
+layout:
+  searchbar-placement: header
+  page-width: full
+navigation:
+  - api: API Endpoints
+    flattened: true
+    layout:
+      - page: Introduction
+        path: docs/pages/introduction.mdx
+colors:
+  accent-primary:
+    light: "#F43F5E"
+    dark: "#F43F5E"
+  background:
+    light: "#FFF9FA"
+    dark: "#0C0305"
+  border:
+    light: "#D9CCCF"
+    dark: "#362A2C"
+theme:
+  page-actions: toolbar
+  footer-nav: minimal
+logo:
+  dark: docs/assets/logo-dark.png
+  light: docs/assets/logo-light.png
+  height: 20
+  href: https://buildwithfern.com
+favicon: docs/assets/favicon.svg
+css: styles.css
+ai-search: {}

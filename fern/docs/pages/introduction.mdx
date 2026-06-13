@@ -1,0 +1,22 @@
+---
+title: Introduction
+---
+
+This collection contains the API endpoints for **BiblioReads** (view more about BiblioReads by visiting the [repo on GitHub](https://github.com/nesaku/BiblioReads)). It covers scraping and search operations across several key domains:
+
+- **Book Search** — Search for books by query (`search-books`, `search-scraper`).
+    
+- **Author Data** — Retrieve author profiles and their associated books (`author-scraper`, `author-books-scraper`).
+    
+- **Similar Books** — Discover books similar to a given title (`similar-scraper`).
+    
+- **Series** — Fetch data about book series (`series-scraper`).
+    
+- **Awards** — Access award winners lists and individual winner pages (`winners-list`, `winner-page`).
+    
+- **Reviews** — Scrape book reviews (`reviews-scraper`).
+    
+- **Public API** — A publicly accessible variant of the author info endpoint (`Public API`).
+    
+
+Most endpoints are POST requests targeting a local development server via the `{{Localhost URL}}` variable, with one endpoint pointing to a `{{Public URL}}` for external access.

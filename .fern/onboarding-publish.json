@@ -1,0 +1,10 @@
+{
+  "desiredContentHash": "5247bd4a3d9e2a0058da303a0c891ff0f8e5bd9029d35ae957b950acec2725b4",
+  "docsUrl": "https://biblioreads.docs.buildwithfern.com",
+  "starter": {
+    "repoOwner": "fern-api",
+    "repoName": "docs-starter-internal",
+    "commitSha": "63ef119238a1280f25fb1948cf2645fa9b7e9a21",
+    "label": "2026-05-21-upgrade-fern-cli-5.35.4"
+  }
+}
