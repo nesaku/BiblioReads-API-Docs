@@ -1,272 +1,61 @@
 {
+  "openapi": "3.1.0",
   "info": {
     "title": "API Endpoints",
     "version": "1.0.0",
-    "description": "This collection contains the API endpoints for **BiblioReads** (view more about BiblioReads by visiting the [repo on GitHub](https://github.com/nesaku/BiblioReads)). It covers scraping and search operations across several key domains:\n\n- **Book Search** — Search for books by query (`search-books`, `search-scraper`).\n    \n- **Author Data** — Retrieve author profiles and their associated books (`author-scraper`, `author-books-scraper`).\n    \n- **Similar Books** — Discover books similar to a given title (`similar-scraper`).\n    \n- **Series** — Fetch data about book series (`series-scraper`).\n    \n- **Awards** — Access award winners lists and individual winner pages (`winners-list`, `winner-page`).\n    \n- **Reviews** — Scrape book reviews (`reviews-scraper`).\n    \n- **Public API** — A publicly accessible variant of the author info endpoint (`Public API`).\n    \n\nMost endpoints are POST requests targeting a local development server via the `{{Localhost URL}}` variable, with one endpoint pointing to a `{{Public URL}}` for external access."
+    "description": "# BiblioReads API\n\nBiblioReads is a web scraping API that aggregates book-related data from Goodreads. It provides structured access to book search results, author profiles, series information, reviews, quotes, award winners, and curated reading lists — all via simple POST requests with a Goodreads URL or identifier in the body.\n\nAll endpoints accept `Content-Type: application/json` and are available at both `{{Localhost URL}}` (local development) and `{{Public URL}}` (production).\n\n---\n\n## Endpoints\n\n| Endpoint | Name | Description |\n| --- | --- | --- |\n| `POST /api/search/books` | search-books | Search for books by keyword using a Goodreads search URL |\n| `POST /api/reviews-scraper` | reviews-scraper | Fetch paginated reviews for a specific book |\n| `POST /api/similar-scraper` | similar-scraper | Get a list of books similar to a given title |\n| `POST /api/author/info` | author-scraper | Retrieve profile information for an author |\n| `POST /api/author/books` | author-books-scraper | List all books published by a specific author |\n| `POST /api/series-scraper` | series-scraper | Get details and book order for a book series |\n| `POST /api/awards/winners-list` | winners-list | Retrieve the list of award-winning books for a given year/category |\n| `POST /api/awards/winner-page` | winner-page | Get full details for a specific award category winner page |\n| `POST /api/quotes/home` | quotes-home | Scrape featured quotes from the Goodreads quotes home page |\n| `POST /api/quotes/slug` | quotes-search | Search for quotes by tag or topic slug |\n| `POST /api/list-scraper` | list-scraper | Scrape books from a Goodreads community reading list |"
   },
   "paths": {
-    "/api/author/info": {
-      "post": {
-        "summary": "author-scraper",
-        "responses": {
-          "200": {
-            "description": "Successful response"
-          }
-        },
-        "description": "Scrapes profile information for a given author. Accepts a POST request with an author identifier and returns details such as biography, genres, and ratings.",
-        "operationId": "postApiAuthorInfo",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "queryURL"
-                ],
-                "properties": {
-                  "queryURL": {
-                    "type": "string",
-                    "format": "uri"
-                  }
-                }
-              },
-              "example": {
-                "queryURL": "https://www.goodreads.com/author/show/3389.Stephen_King"
-              }
-            }
-          }
-        },
-        "x-fern-sdk-method-name": "author-scraper"
-      }
-    },
-    "/api/quotes/home": {
-      "post": {
-        "summary": "quotes-home",
-        "responses": {
-          "200": {
-            "description": "Successful response"
-          }
-        },
-        "description": "Scrapes the list of books written by a specific author. Accepts a POST request with an author identifier and returns a structured list of the author's published works.",
-        "operationId": "postApiQuotesHome",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "queryURL"
-                ],
-                "properties": {
-                  "queryURL": {
-                    "type": "string",
-                    "format": "uri"
-                  }
-                }
-              },
-              "example": {
-                "queryURL": "https://www.goodreads.com/quotes"
-              }
-            }
-          }
-        },
-        "x-fern-sdk-method-name": "quotes-home"
-      }
-    },
-    "/api/quotes/slug": {
-      "post": {
-        "summary": "quotes-search",
-        "responses": {
-          "200": {
-            "description": "Successful response"
-          }
-        },
-        "description": "Scrapes the list of books written by a specific author. Accepts a POST request with an author identifier and returns a structured list of the author's published works.",
-        "operationId": "postApiQuotesSlug",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "queryURL"
-                ],
-                "properties": {
-                  "queryURL": {
-                    "type": "string",
-                    "format": "uri"
-                  }
-                }
-              },
-              "example": {
-                "queryURL": "https://www.goodreads.com/quotes/tag?id=Sad"
-              }
-            }
-          }
-        },
-        "x-fern-sdk-method-name": "quotes-search"
-      }
-    },
-    "/api/author/books": {
-      "post": {
-        "summary": "author-books-scraper",
-        "responses": {
-          "200": {
-            "description": "Successful response"
-          }
-        },
-        "description": "Scrapes the list of books written by a specific author. Accepts a POST request with an author identifier and returns a structured list of the author's published works.",
-        "operationId": "postApiAuthorBooks",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "page",
-                  "queryURL"
-                ],
-                "properties": {
-                  "page": {
-                    "type": "integer"
-                  },
-                  "queryURL": {
-                    "type": "string",
-                    "format": "uri"
-                  }
-                }
-              },
-              "example": {
-                "page": 1,
-                "queryURL": "https://www.goodreads.com/author/list/3389.Stephen_King"
-              }
-            }
-          }
-        },
-        "x-fern-sdk-method-name": "author-books-scraper"
-      }
-    },
-    "/api/list-scraper": {
-      "post": {
-        "summary": "list-scraper",
-        "responses": {
-          "200": {
-            "description": "Successful response"
-          }
-        },
-        "description": "Scrapes the list of books written by a specific author. Accepts a POST request with an author identifier and returns a structured list of the author's published works.",
-        "operationId": "postApiList-scraper",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "queryURL"
-                ],
-                "properties": {
-                  "queryURL": {
-                    "type": "string",
-                    "format": "uri"
-                  }
-                }
-              },
-              "example": {
-                "queryURL": "https://www.goodreads.com/list/show/18834.BBC_Top_200_Books"
-              }
-            }
-          }
-        },
-        "x-fern-sdk-method-name": "list-scraper"
-      }
-    },
     "/api/search/books": {
       "post": {
+        "operationId": "postApiSearchBooks",
         "summary": "search-books",
+        "description": "## Search Books\n\nSearches for books on Goodreads by keyword. Pass a Goodreads search URL as the `queryURL` and receive a structured list of matching books.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/search/books`  \n**Headers:**\n\n| Key | Value |\n|---|---|\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/search?q=powerless\"\n}\n```\n\n| Field | Type | Required | Description |\n|---|---|---|---|\n| `queryURL` | string | Yes | A Goodreads search URL with the `q` query parameter set to the search term |\n\n---\n\n### Response\n\n**Success `200 OK`:**\n\n```json\n{\n  \"books\": [\n    {\n      \"title\": \"string\",\n      \"author\": \"string\",\n      \"url\": \"string\",\n      \"coverImage\": \"string\",\n      \"rating\": \"string\",\n      \"ratingsCount\": \"string\"\n    }\n  ]\n}\n```\n\n| Field | Type | Description |\n|---|---|---|\n| `books` | array | List of matching book results |\n| `books[].title` | string | Title of the book |\n| `books[].author` | string | Author name |\n| `books[].url` | string | Goodreads URL for the book |\n| `books[].coverImage` | string | URL of the book cover image |\n| `books[].rating` | string | Average rating |\n| `books[].ratingsCount` | string | Total number of ratings |",
         "responses": {
           "200": {
             "description": "Successful response"
           }
         },
-        "description": "Searches for books by a given query. Accepts a POST request with search parameters in the request body and returns a list of matching books from the BiblioReads database.",
-        "operationId": "postApiSearchBooks",
+        "x-fern-sdk-method-name": "search-books",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "queryURL"
-                ],
                 "properties": {
                   "queryURL": {
                     "type": "string",
                     "format": "uri"
                   }
-                }
+                },
+                "required": [
+                  "queryURL"
+                ]
               },
               "example": {
                 "queryURL": "https://www.goodreads.com/search?q=powerless"
               }
             }
           }
-        },
-        "x-fern-sdk-method-name": "search-books"
-      }
-    },
-    "/api/series-scraper": {
-      "post": {
-        "summary": "series-scraper",
-        "responses": {
-          "200": {
-            "description": "Successful response"
-          }
-        },
-        "description": "Scrapes information about a book series. Accepts a POST request with a series identifier and returns details such as the series title, book order, and individual book entries.",
-        "operationId": "postApiSeries-scraper",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "queryURL"
-                ],
-                "properties": {
-                  "queryURL": {
-                    "type": "string",
-                    "format": "uri"
-                  }
-                }
-              },
-              "example": {
-                "queryURL": "https://www.goodreads.com/series/45175-harry-potter"
-              }
-            }
-          }
-        },
-        "x-fern-sdk-method-name": "series-scraper"
+        }
       }
     },
     "/api/reviews-scraper": {
       "post": {
+        "operationId": "postApiReviews-scraper",
         "summary": "reviews-scraper",
+        "description": "## Reviews Scraper\n\nFetches paginated community reviews for a specific book. Use `nextPageToken` to paginate through additional pages of reviews.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/reviews-scraper`  \n**Headers:**\n\n| Key | Value |\n| --- | --- |\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n``` json\n{\n  \"resourceID\": \"kca://work/amzn1.gr.work.v1.U_UP9GjBCWvFz0W1V-A5fQ\",\n  \"legacyBookID\": 11387515,\n  \"nextPageToken\": null\n}\n```\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| `resourceID` | string | Yes | The Goodreads KCA resource ID for the book (format: `kca://work/...`) |\n| `legacyBookID` | number | No | The legacy numeric Goodreads book ID. Optional when `resourceID` is provided |\n| `nextPageToken` | string \\| null | No | Pagination token from a previous response. Pass `null` for the first page |\n\n---\n\n### Response\n\n**Success** **`200 OK`:**\n\n``` json\n{\n  \"reviews\": [\n    {\n      \"reviewer\": \"string\",\n      \"reviewerURL\": \"string\",\n      \"rating\": \"string\",\n      \"date\": \"string\",\n      \"text\": \"string\"\n    }\n  ],\n  \"nextPageToken\": \"string | null\"\n}\n```\n\n| Field | Type | Description |\n| --- | --- | --- |\n| `reviews` | array | List of review objects |\n| `reviews[].reviewer` | string | Display name of the reviewer |\n| `reviews[].reviewerURL` | string | Goodreads profile URL of the reviewer |\n| `reviews[].rating` | string | Star rating given by the reviewer |\n| `reviews[].date` | string | Date the review was posted |\n| `reviews[].text` | string | Full text of the review |\n| `nextPageToken` | string \\| null | Token to pass in the next request to fetch the following page. `null` when no more pages exist |",
         "responses": {
           "200": {
             "description": "Successful response"
           }
         },
-        "description": "Scrapes reviews for a specified book. Accepts a POST request with book identifiers in the body and returns scraped review data from the source.",
-        "operationId": "postApiReviews-scraper",
+        "x-fern-sdk-method-name": "reviews-scraper",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "resourceID",
-                  "legacyBookID"
-                ],
                 "properties": {
                   "resourceID": {
                     "type": "string"
@@ -279,7 +68,11 @@
                       "null"
                     ]
                   }
-                }
+                },
+                "required": [
+                  "resourceID",
+                  "legacyBookID"
+                ]
               },
               "example": {
                 "resourceID": "kca://work/amzn1.gr.work.v1.U_UP9GjBCWvFz0W1V-A5fQ",
@@ -288,29 +81,25 @@
               }
             }
           }
-        },
-        "x-fern-sdk-method-name": "reviews-scraper"
+        }
       }
     },
     "/api/similar-scraper": {
       "post": {
+        "operationId": "postApiSimilar-scraper",
         "summary": "similar-scraper",
+        "description": "## Similar Books Scraper\n\nReturns a list of books that Goodreads recommends as similar to a given title. Useful for building \"readers also enjoyed\" or recommendation features.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/similar-scraper`  \n**Headers:**\n\n| Key | Value |\n|---|---|\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n```json\n{\n  \"bookID\": \"kca://book/amzn1.gr.book.v1.kUA9FFwWCuSBb-AdLEwsvQ\",\n  \"legacyBookID\": 11387515\n}\n```\n\n| Field | Type | Required | Description |\n|---|---|---|---|\n| `bookID` | string | Yes | The Goodreads KCA book ID (format: `kca://book/...`) |\n| `legacyBookID` | number | No | The legacy numeric Goodreads book ID. Optional when `bookID` is provided |\n\n---\n\n### Response\n\n**Success `200 OK`:**\n\n```json\n{\n  \"similarBooks\": [\n    {\n      \"title\": \"string\",\n      \"author\": \"string\",\n      \"url\": \"string\",\n      \"coverImage\": \"string\",\n      \"rating\": \"string\"\n    }\n  ]\n}\n```\n\n| Field | Type | Description |\n|---|---|---|\n| `similarBooks` | array | List of similar book recommendations |\n| `similarBooks[].title` | string | Title of the recommended book |\n| `similarBooks[].author` | string | Author of the recommended book |\n| `similarBooks[].url` | string | Goodreads URL for the book |\n| `similarBooks[].coverImage` | string | URL of the book cover image |\n| `similarBooks[].rating` | string | Average Goodreads rating |",
         "responses": {
           "200": {
             "description": "Successful response"
           }
         },
-        "description": "Scrapes a list of books similar to a given title. Accepts a POST request with a book identifier and returns a list of related or recommended books.",
-        "operationId": "postApiSimilar-scraper",
+        "x-fern-sdk-method-name": "similar-scraper",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "bookID",
-                  "legacyBookID"
-                ],
                 "properties": {
                   "bookID": {
                     "type": "string"
@@ -318,7 +107,11 @@
                   "legacyBookID": {
                     "type": "integer"
                   }
-                }
+                },
+                "required": [
+                  "bookID",
+                  "legacyBookID"
+                ]
               },
               "example": {
                 "bookID": "kca://book/amzn1.gr.book.v1.kUA9FFwWCuSBb-AdLEwsvQ",
@@ -326,118 +119,288 @@
               }
             }
           }
-        },
-        "x-fern-sdk-method-name": "similar-scraper"
+        }
       }
     },
-    "/api/awards/winner-page": {
+    "/api/author/info": {
       "post": {
-        "summary": "winner-page",
+        "operationId": "postApiAuthorInfo",
+        "summary": "author-scraper",
+        "description": "## Author Info Scraper\n\nRetrieves profile information for a Goodreads author, including their biography, genres, follower count, and aggregate ratings.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/author/info`  \n**Headers:**\n\n| Key | Value |\n|---|---|\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/author/show/3389.Stephen_King\"\n}\n```\n\n| Field | Type | Required | Description |\n|---|---|---|---|\n| `queryURL` | string | Yes | The full Goodreads author profile URL (format: `https://www.goodreads.com/author/show/<id>.<Name>`) |\n\n---\n\n### Response\n\n**Success `200 OK`:**\n\n```json\n{\n  \"name\": \"string\",\n  \"url\": \"string\",\n  \"image\": \"string\",\n  \"rating\": \"string\",\n  \"ratingsCount\": \"string\",\n  \"reviewsCount\": \"string\",\n  \"genres\": [\"string\"],\n  \"bio\": \"string\",\n  \"followersCount\": \"string\"\n}\n```\n\n| Field | Type | Description |\n|---|---|---|\n| `name` | string | Author's full name |\n| `url` | string | Goodreads profile URL |\n| `image` | string | URL of the author's profile photo |\n| `rating` | string | Average rating across all works |\n| `ratingsCount` | string | Total number of ratings |\n| `reviewsCount` | string | Total number of reviews |\n| `genres` | array of strings | List of genres the author is known for |\n| `bio` | string | Author biography |\n| `followersCount` | string | Number of Goodreads followers |",
         "responses": {
           "200": {
             "description": "Successful response"
           }
         },
-        "description": "Fetches the detail page for a specific award winner. Accepts a POST request with a winner identifier and returns full details about the awarded book or author.",
-        "operationId": "postApiAwardsWinner-page",
+        "x-fern-sdk-method-name": "author-scraper",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "queryURL"
-                ],
                 "properties": {
                   "queryURL": {
                     "type": "string",
                     "format": "uri"
                   }
-                }
-              },
-              "example": {
-                "queryURL": "https://www.goodreads.com/choiceawards/best-fiction-books-2023"
-              }
-            }
-          }
-        },
-        "x-fern-sdk-method-name": "winner-page"
-      }
-    },
-    "/api/awards/winners-list": {
-      "post": {
-        "summary": "winners-list",
-        "responses": {
-          "200": {
-            "description": "Successful response"
-          }
-        },
-        "description": "Retrieves a list of award-winning books. Accepts a POST request with award category or year filters and returns a structured list of winners.",
-        "operationId": "postApiAwardsWinners-list",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
+                },
                 "required": [
                   "queryURL"
-                ],
-                "properties": {
-                  "queryURL": {
-                    "type": "string",
-                    "format": "uri"
-                  }
-                }
-              },
-              "example": {
-                "queryURL": "https://www.goodreads.com/choiceawards/best-books-2023"
-              }
-            }
-          }
-        },
-        "x-fern-sdk-method-name": "winners-list"
-      }
-    },
-    "/api/author/info#postApiAuthorInfo2": {
-      "post": {
-        "summary": "Public API",
-        "responses": {
-          "200": {
-            "description": "Successful response"
-          }
-        },
-        "description": "Publicly accessible endpoint for retrieving author information. Targets the production public URL (`{{Public URL}}`) rather than localhost, making it suitable for external or client-facing usage.",
-        "operationId": "postApiAuthorInfo2",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "queryURL"
-                ],
-                "properties": {
-                  "queryURL": {
-                    "type": "string",
-                    "format": "uri"
-                  }
-                }
+                ]
               },
               "example": {
                 "queryURL": "https://www.goodreads.com/author/show/3389.Stephen_King"
               }
             }
           }
+        }
+      }
+    },
+    "/api/awards/winners-list": {
+      "post": {
+        "operationId": "postApiAwardsWinners-list",
+        "summary": "winners-list",
+        "description": "## Awards Winners List\n\nRetrieves the list of award categories and their winning books for a given Goodreads Choice Awards year. Use this to get a high-level overview of all award categories on the awards landing page.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/awards/winners-list`  \n**Headers:**\n\n| Key | Value |\n|---|---|\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/choiceawards/best-books-2023\"\n}\n```\n\n| Field | Type | Required | Description |\n|---|---|---|---|\n| `queryURL` | string | Yes | The Goodreads Choice Awards URL for a specific year (format: `https://www.goodreads.com/choiceawards/best-books-<year>`) |\n\n---\n\n### Response\n\n**Success `200 OK`:**\n\n```json\n{\n  \"year\": \"string\",\n  \"categories\": [\n    {\n      \"category\": \"string\",\n      \"categoryURL\": \"string\",\n      \"winner\": {\n        \"title\": \"string\",\n        \"author\": \"string\",\n        \"coverImage\": \"string\"\n      }\n    }\n  ]\n}\n```\n\n| Field | Type | Description |\n|---|---|---|\n| `year` | string | The awards year |\n| `categories` | array | List of award categories |\n| `categories[].category` | string | Name of the award category (e.g. `\"Best Fiction\"`) |\n| `categories[].categoryURL` | string | Goodreads URL for the category winner page |\n| `categories[].winner.title` | string | Title of the winning book |\n| `categories[].winner.author` | string | Author of the winning book |\n| `categories[].winner.coverImage` | string | URL of the winning book's cover image |",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
         },
-        "x-fern-sdk-method-name": "Public API"
+        "x-fern-sdk-method-name": "winners-list",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "queryURL"
+                ]
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/choiceawards/best-books-2023"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/awards/winner-page": {
+      "post": {
+        "operationId": "postApiAwardsWinner-page",
+        "summary": "winner-page",
+        "description": "## Award Winner Page\n\nFetches the full detail page for a specific Goodreads Choice Awards category, including the winner and all nominees with their vote counts.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/awards/winner-page`  \n**Headers:**\n\n| Key | Value |\n|---|---|\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/choiceawards/best-fiction-books-2023\"\n}\n```\n\n| Field | Type | Required | Description |\n|---|---|---|---|\n| `queryURL` | string | Yes | The Goodreads Choice Awards category URL (format: `https://www.goodreads.com/choiceawards/<category>-<year>`) |\n\n---\n\n### Response\n\n**Success `200 OK`:**\n\n```json\n{\n  \"category\": \"string\",\n  \"year\": \"string\",\n  \"winner\": {\n    \"title\": \"string\",\n    \"author\": \"string\",\n    \"url\": \"string\",\n    \"coverImage\": \"string\",\n    \"votes\": \"string\"\n  },\n  \"nominees\": [\n    {\n      \"title\": \"string\",\n      \"author\": \"string\",\n      \"url\": \"string\",\n      \"coverImage\": \"string\",\n      \"votes\": \"string\"\n    }\n  ]\n}\n```\n\n| Field | Type | Description |\n|---|---|---|\n| `category` | string | Award category name |\n| `year` | string | Awards year |\n| `winner` | object | The winning book for this category |\n| `winner.title` | string | Title of the winning book |\n| `winner.author` | string | Author of the winning book |\n| `winner.url` | string | Goodreads URL for the winning book |\n| `winner.coverImage` | string | Cover image URL |\n| `winner.votes` | string | Number of votes received |\n| `nominees` | array | All other nominated books in this category |\n| `nominees[].title` | string | Nominee book title |\n| `nominees[].author` | string | Nominee author |\n| `nominees[].url` | string | Goodreads URL |\n| `nominees[].coverImage` | string | Cover image URL |\n| `nominees[].votes` | string | Number of votes received |",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "x-fern-sdk-method-name": "winner-page",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "queryURL"
+                ]
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/choiceawards/best-fiction-books-2023"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series-scraper": {
+      "post": {
+        "operationId": "postApiSeries-scraper",
+        "summary": "series-scraper",
+        "description": "## Series Scraper\n\nRetrieves structured information about a book series, including the series title, description, and an ordered list of all books in the series.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/series-scraper`  \n**Headers:**\n\n| Key | Value |\n|---|---|\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/series/45175-harry-potter\"\n}\n```\n\n| Field | Type | Required | Description |\n|---|---|---|---|\n| `queryURL` | string | Yes | The full Goodreads series URL (format: `https://www.goodreads.com/series/<id>-<series-name>`) |\n\n---\n\n### Response\n\n**Success `200 OK`:**\n\n```json\n{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"books\": [\n    {\n      \"order\": \"string\",\n      \"title\": \"string\",\n      \"author\": \"string\",\n      \"url\": \"string\",\n      \"coverImage\": \"string\",\n      \"rating\": \"string\",\n      \"ratingsCount\": \"string\"\n    }\n  ]\n}\n```\n\n| Field | Type | Description |\n|---|---|---|\n| `title` | string | Name of the series |\n| `description` | string | Series description or synopsis |\n| `books` | array | Ordered list of books in the series |\n| `books[].order` | string | Position of the book within the series (e.g. `\"1\"`, `\"2\"`, `\"2.5\"`) |\n| `books[].title` | string | Book title |\n| `books[].author` | string | Author name |\n| `books[].url` | string | Goodreads URL for the book |\n| `books[].coverImage` | string | URL of the book cover image |\n| `books[].rating` | string | Average Goodreads rating |\n| `books[].ratingsCount` | string | Total number of ratings |",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "x-fern-sdk-method-name": "series-scraper",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "queryURL"
+                ]
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/series/45175-harry-potter"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/author/books": {
+      "post": {
+        "operationId": "postApiAuthorBooks",
+        "summary": "author-books-scraper",
+        "description": "## Author Books Scraper\n\nRetrieves a paginated list of books published by a specific author. Use the `page` field to navigate through multiple pages of results.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/author/books`  \n**Headers:**\n\n| Key | Value |\n|---|---|\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n```json\n{\n  \"page\": 1,\n  \"queryURL\": \"https://www.goodreads.com/author/list/3389.Stephen_King\"\n}\n```\n\n| Field | Type | Required | Description |\n|---|---|---|---|\n| `queryURL` | string | Yes | The Goodreads author book list URL (format: `https://www.goodreads.com/author/list/<id>.<Name>`) |\n| `page` | number | No | Page number for pagination. Defaults to `1` |\n\n---\n\n### Response\n\n**Success `200 OK`:**\n\n```json\n{\n  \"books\": [\n    {\n      \"title\": \"string\",\n      \"url\": \"string\",\n      \"coverImage\": \"string\",\n      \"rating\": \"string\",\n      \"ratingsCount\": \"string\",\n      \"publishedYear\": \"string\"\n    }\n  ],\n  \"totalBooks\": \"string\"\n}\n```\n\n| Field | Type | Description |\n|---|---|---|\n| `books` | array | List of books by the author |\n| `books[].title` | string | Book title |\n| `books[].url` | string | Goodreads URL for the book |\n| `books[].coverImage` | string | URL of the book cover image |\n| `books[].rating` | string | Average Goodreads rating |\n| `books[].ratingsCount` | string | Total number of ratings |\n| `books[].publishedYear` | string | Year the book was published |\n| `totalBooks` | string | Total number of books by this author on Goodreads |",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "x-fern-sdk-method-name": "author-books-scraper",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "page": {
+                    "type": "integer"
+                  },
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "page",
+                  "queryURL"
+                ]
+              },
+              "example": {
+                "page": 1,
+                "queryURL": "https://www.goodreads.com/author/list/3389.Stephen_King"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/quotes/home": {
+      "post": {
+        "operationId": "postApiQuotesHome",
+        "summary": "quotes-home",
+        "description": "## Quotes Home\n\nScrapes the featured quotes from the Goodreads quotes home page, returning a curated list of popular quotes along with their authors and associated tags.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/quotes/home`  \n**Headers:**\n\n| Key | Value |\n|---|---|\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/quotes\"\n}\n```\n\n| Field | Type | Required | Description |\n|---|---|---|---|\n| `queryURL` | string | Yes | The Goodreads quotes home URL. Should always be `https://www.goodreads.com/quotes` |\n\n---\n\n### Response\n\n**Success `200 OK`:**\n\n```json\n{\n  \"quotes\": [\n    {\n      \"text\": \"string\",\n      \"author\": \"string\",\n      \"authorURL\": \"string\",\n      \"book\": \"string\",\n      \"bookURL\": \"string\",\n      \"tags\": [\"string\"],\n      \"likes\": \"string\"\n    }\n  ]\n}\n```\n\n| Field | Type | Description |\n|---|---|---|\n| `quotes` | array | List of featured quotes |\n| `quotes[].text` | string | The full quote text |\n| `quotes[].author` | string | Name of the person the quote is attributed to |\n| `quotes[].authorURL` | string | Goodreads URL for the author |\n| `quotes[].book` | string | Title of the book the quote is from (if applicable) |\n| `quotes[].bookURL` | string | Goodreads URL for the source book |\n| `quotes[].tags` | array of strings | Tags associated with the quote (e.g. `[\"inspirational\", \"life\"]`) |\n| `quotes[].likes` | string | Number of likes the quote has received |",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "x-fern-sdk-method-name": "quotes-home",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "queryURL"
+                ]
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/quotes"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/quotes/slug": {
+      "post": {
+        "operationId": "postApiQuotesSlug",
+        "summary": "quotes-search",
+        "description": "## Quotes Search (by Tag/Slug)\n\nSearches for quotes on Goodreads filtered by a specific tag or topic slug. Returns a list of quotes matching the given tag.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/quotes/slug`  \n**Headers:**\n\n| Key | Value |\n|---|---|\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/quotes/tag?id=Sad\"\n}\n```\n\n| Field | Type | Required | Description |\n|---|---|---|---|\n| `queryURL` | string | Yes | A Goodreads quotes tag URL (format: `https://www.goodreads.com/quotes/tag?id=<tag>`) |\n\n---\n\n### Response\n\n**Success `200 OK`:**\n\n```json\n{\n  \"tag\": \"string\",\n  \"quotes\": [\n    {\n      \"text\": \"string\",\n      \"author\": \"string\",\n      \"authorURL\": \"string\",\n      \"book\": \"string\",\n      \"bookURL\": \"string\",\n      \"tags\": [\"string\"],\n      \"likes\": \"string\"\n    }\n  ]\n}\n```\n\n| Field | Type | Description |\n|---|---|---|\n| `tag` | string | The tag/slug used to filter quotes |\n| `quotes` | array | List of quotes matching the tag |\n| `quotes[].text` | string | The full quote text |\n| `quotes[].author` | string | Name of the person the quote is attributed to |\n| `quotes[].authorURL` | string | Goodreads URL for the author |\n| `quotes[].book` | string | Title of the source book (if applicable) |\n| `quotes[].bookURL` | string | Goodreads URL for the source book |\n| `quotes[].tags` | array of strings | All tags associated with the quote |\n| `quotes[].likes` | string | Number of likes the quote has received |",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "x-fern-sdk-method-name": "quotes-search",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "queryURL"
+                ]
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/quotes/tag?id=Sad"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/list-scraper": {
+      "post": {
+        "operationId": "postApiList-scraper",
+        "summary": "list-scraper",
+        "description": "## List Scraper\n\nScrapes books from a Goodreads community-curated reading list. Returns the list title, description, and all books included in the list with their rankings.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/list-scraper`  \n**Headers:**\n\n| Key | Value |\n|---|---|\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/list/show/18834.BBC_Top_200_Books\"\n}\n```\n\n| Field | Type | Required | Description |\n|---|---|---|---|\n| `queryURL` | string | Yes | The full Goodreads list URL (format: `https://www.goodreads.com/list/show/<id>.<List_Name>`) |\n\n---\n\n### Response\n\n**Success `200 OK`:**\n\n```json\n{\n  \"listTitle\": \"string\",\n  \"description\": \"string\",\n  \"booksCount\": \"string\",\n  \"books\": [\n    {\n      \"rank\": \"string\",\n      \"title\": \"string\",\n      \"author\": \"string\",\n      \"url\": \"string\",\n      \"coverImage\": \"string\",\n      \"rating\": \"string\",\n      \"ratingsCount\": \"string\",\n      \"score\": \"string\"\n    }\n  ]\n}\n```\n\n| Field | Type | Description |\n|---|---|---|\n| `listTitle` | string | Title of the Goodreads list |\n| `description` | string | Description or context for the list |\n| `booksCount` | string | Total number of books in the list |\n| `books` | array | Ranked list of books |\n| `books[].rank` | string | Position of the book in the list |\n| `books[].title` | string | Book title |\n| `books[].author` | string | Author name |\n| `books[].url` | string | Goodreads URL for the book |\n| `books[].coverImage` | string | URL of the book cover image |\n| `books[].rating` | string | Average Goodreads rating |\n| `books[].ratingsCount` | string | Total number of ratings |\n| `books[].score` | string | Community voting score for the list position |",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "x-fern-sdk-method-name": "list-scraper",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "queryURL"
+                ]
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/list/show/18834.BBC_Top_200_Books"
+              }
+            }
+          }
+        }
       }
     }
   },
-  "openapi": "3.1.0",
   "servers": [
-    {
-      "url": "http://localhost:3000"
-    },
     {
       "url": "https://biblioreads.eu.org"
     }
