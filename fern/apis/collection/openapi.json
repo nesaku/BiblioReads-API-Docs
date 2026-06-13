@@ -103,19 +103,14 @@
                 "properties": {
                   "bookID": {
                     "type": "string"
-                  },
-                  "legacyBookID": {
-                    "type": "integer"
                   }
                 },
                 "required": [
-                  "bookID",
-                  "legacyBookID"
+                  "bookID"
                 ]
               },
               "example": {
-                "bookID": "kca://book/amzn1.gr.book.v1.kUA9FFwWCuSBb-AdLEwsvQ",
-                "legacyBookID": 11387515
+                "bookID": "kca://book/amzn1.gr.book.v1.kUA9FFwWCuSBb-AdLEwsvQ"
               }
             }
           }
