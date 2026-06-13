@@ -37,6 +37,6 @@ logo:
   light: docs/assets/logo-light.png
   height: 20
   href: https://buildwithfern.com
-favicon: docs/assets/favicon.svg
+favicon: favicon.ico
 css: styles.css
 ai-search: {}
