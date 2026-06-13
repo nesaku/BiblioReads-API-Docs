@@ -2,6 +2,7 @@
 
 instances:
   - url: biblioreads.docs.buildwithfern.com
+    custom-domain: docs.biblioreads.eu.org
     edit-this-page:
       github:
         owner: fern-starter
