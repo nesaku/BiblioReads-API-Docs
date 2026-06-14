@@ -40,6 +40,40 @@
         }
       }
     },
+    "/api/book-scraper": {
+      "post": {
+        "operationId": "postApiBook-scraper",
+        "summary": "book-scraper",
+        "description": "## Search Books\n\nSearches for books on Goodreads by keyword. Pass a Goodreads search URL as the `queryURL` and receive a structured list of matching books.\n\n---\n\n### Request\n\n**Method:** `POST`  \n**URL:** `{{Localhost URL}}/api/search/books`  \n**Headers:**\n\n| Key | Value |\n|---|---|\n| Content-Type | application/json |\n\n**Body** (`application/json`):\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/search?q=powerless\"\n}\n```\n\n| Field | Type | Required | Description |\n|---|---|---|---|\n| `queryURL` | string | Yes | A Goodreads search URL with the `q` query parameter set to the search term |\n\n---\n\n### Response\n\n**Success `200 OK`:**\n\n```json\n{\n  \"books\": [\n    {\n      \"title\": \"string\",\n      \"author\": \"string\",\n      \"url\": \"string\",\n      \"coverImage\": \"string\",\n      \"rating\": \"string\",\n      \"ratingsCount\": \"string\"\n    }\n  ]\n}\n```\n\n| Field | Type | Description |\n|---|---|---|\n| `books` | array | List of matching book results |\n| `books[].title` | string | Title of the book |\n| `books[].author` | string | Author name |\n| `books[].url` | string | Goodreads URL for the book |\n| `books[].coverImage` | string | URL of the book cover image |\n| `books[].rating` | string | Average rating |\n| `books[].ratingsCount` | string | Total number of ratings |",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        },
+        "x-fern-sdk-method-name": "book-scraper",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "queryURL"
+                ]
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/book/show/5907"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/reviews-scraper": {
       "post": {
         "operationId": "postApiReviews-scraper",
