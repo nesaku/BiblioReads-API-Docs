@@ -6,7 +6,7 @@ This collection contains the API endpoints for **BiblioReads** (learn more about
 
 This API provides structured access to book search results, author profiles, series information, reviews, quotes and more via simple POST requests with a Goodreads URL or identifier in the body.
 
-All endpoints accept `Content-Type: application/json` and are available at both `{{Localhost URL}}` (local development) and `{{Public URL}}` (production).
+All endpoints accept `Content-Type: application/json` and are available at the `/api/*` path of a specified instance. For example, `https://yourinstance.example.com/api/book-scraper`.
 
 **Please note that this is NOT an official API, and could change without notice.**
 
@@ -17,6 +17,7 @@ All endpoints accept `Content-Type: application/json` and are available at both 
 | Endpoint | Name | Description |
 | --- | --- | --- |
 | `POST /api/search/books` | search-books | Search for books by keyword using a Goodreads search URL |
+| `POST /api/book-scraper` | book-scraper | Get book details for a specific book |
 | `POST /api/reviews-scraper` | reviews-scraper | Fetch paginated reviews for a specific book |
 | `POST /api/similar-scraper` | similar-scraper | Get a list of books similar to a given title |
 | `POST /api/author/info` | author-scraper | Retrieve profile information for an author |
@@ -27,3 +28,5 @@ All endpoints accept `Content-Type: application/json` and are available at both 
 | `POST /api/quotes/home` | quotes-home | Scrape featured quotes from the Goodreads quotes home page |
 | `POST /api/quotes/slug` | quotes-search | Search for quotes by tag or topic slug |
 | `POST /api/list-scraper` | list-scraper | Scrape books from a Goodreads community reading list |
+| `POST /api/works/questions` | questions-scraper | Scrape community Q&A questions for a specific book |
+| `POST /api/works/quotes` | quotes-scraper | Scrape quotes associated with a specific book work |
