@@ -6,9 +6,9 @@
     "description": "# BiblioReads API Documentation\n\nThis collection contains the API endpoints for **BiblioReads** (learn more about BiblioReads by visiting the [repo on GitHub](https://github.com/nesaku/BiblioReads)).\n\nThis API provides structured access to book search results, author profiles, series information, reviews, quotes and more via POST requests with a Goodreads URL or identifier in the body.\n\nAll endpoints accept `Content-Type: application/json` and are available at the /api/\\* path of a specified instance. For example, `https://yourinstance.example.com/api/book-scraper`.\n\n**Please note that this is NOT an official API, and could change without notice.**\n\n---\n\n## Endpoints\n\n| Endpoint | Name | Description |\n| --- | --- | --- |\n| `POST /api/search/books` | search-books | Search for books by keyword using a Goodreads search URL |\n| `POST /api/book-scraper` | book-scraper | Get book details for a specific book |\n| `POST /api/reviews-scraper` | reviews-scraper | Fetch paginated reviews for a specific book |\n| `POST /api/similar-scraper` | similar-scraper | Get similar book recommendations for a specific book |\n| `POST /api/series-scraper` | series-scraper | Get all books in a series |\n| `POST /api/list-scraper` | list-scraper | Scrape books from a Goodreads community list |\n| `POST /api/author/info` | author-info-scraper | Get author profile information |\n| `POST /api/author/books` | author-books-scraper | Get all books by a specific author |\n| `POST /api/awards/winners-list` | winners-list | Get the list of winners from a Goodreads Choice Awards category |\n| `POST /api/awards/winner-page` | winner-page | Get detailed information about a specific Choice Awards winner page |\n| `POST /api/quotes/home` | quotes-home | Scrape featured quotes from the Goodreads quotes home page |\n| `POST /api/quotes/slug` | quotes-slug | Scrape quotes from a Goodreads quotes tag or slug page |\n| `POST /api/works/questions` | questions-scraper | Fetch community Q&A questions for a book |\n| `POST /api/works/quotes` | quotes-scraper | Fetch quotes associated with a specific book work |\n| `POST /api/works/editions` | editions-scraper | Fetch all available editions of a book work by its Goodreads editions URL |"
   },
   "paths": {
-    "/": {
+    "/api/author/books": {
       "post": {
-        "operationId": "post",
+        "operationId": "postApiAuthorBooks",
         "summary": "author-books-scraper",
         "description": "## Author Books Scraper\n\nScrapes the list of books written by a specific Goodreads author using a direct author books page URL. Returns structured metadata for all books listed on the author's Goodreads profile.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/author/books`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads author books list URL to scrape (e.g. `https://www.goodreads.com/author/list/1077326.J_K_Rowling`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/author/list/1077326.J_K_Rowling\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing the list of books by the specified author.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  ...\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the response |\n| author | string | Name of the author whose books were scraped |\n| books | array | List of books by the author, each with title, cover image, rating, and Goodreads URL |",
         "responses": {
@@ -1089,9 +1089,9 @@
         }
       }
     },
-    "/#post2": {
+    "/api/author/info": {
       "post": {
-        "operationId": "post2",
+        "operationId": "postApiAuthorInfo",
         "summary": "author-info-scraper",
         "description": "## Author Scraper\n\nScrapes author profile information from a Goodreads author page using a direct author URL. Returns structured details about the author including biography, genres, and other profile metadata.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/author/info`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads author page URL to scrape (e.g. `https://www.goodreads.com/author/show/1077326.J_K_Rowling`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/author/show/1077326.J_K_Rowling\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing the scraped author profile information.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  ...\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the response |\n| name | string | Full name of the author |\n| bio | string | Author biography as listed on Goodreads |\n| genres | array | List of genres the author is known for |\n| image | string | URL of the author's profile image |",
         "responses": {
@@ -1549,9 +1549,9 @@
         }
       }
     },
-    "/#post3": {
+    "/api/awards/winners-list": {
       "post": {
-        "operationId": "post3",
+        "operationId": "postApiAwardsWinners-list",
         "summary": "winners-list",
         "description": "## Winners List\n\nScrapes the list of winners from a Goodreads Choice Awards category page using a direct category URL. Returns structured information about all winning books in the specified awards category.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/awards/winners-list`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads Choice Awards category page URL to scrape (e.g. `https://www.goodreads.com/choiceawards/best-fiction-books-2023`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/choiceawards/best-fiction-books-2023\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing the list of winners from the specified Choice Awards category.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  ...\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the response |\n| winners | array | List of winning books in the awards category, each with title, author, and metadata |",
         "responses": {
@@ -1808,9 +1808,9 @@
         }
       }
     },
-    "/#post4": {
+    "/api/awards/winner-page": {
       "post": {
-        "operationId": "post4",
+        "operationId": "postApiAwardsWinner-page",
         "summary": "winner-page",
         "description": "## Winner Page\n\nScrapes detailed information about a specific Goodreads Choice Awards winner page using a direct category URL. Returns in-depth metadata about the winning book and the awards context.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/awards/winner-page`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads Choice Awards category page URL to scrape (e.g. `https://www.goodreads.com/choiceawards/best-fiction-books-2023`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/choiceawards/best-fiction-books-2023\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing detailed information about the Choice Awards winner page.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  ...\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the response |\n| category | string | The awards category name |\n| year | string | The year of the Choice Awards |\n| winner | object | Detailed metadata about the winning book including title, author, and cover image |",
         "responses": {
@@ -2168,9 +2168,9 @@
         }
       }
     },
-    "/#post5": {
+    "/api/quotes/home": {
       "post": {
-        "operationId": "post5",
+        "operationId": "postApiQuotesHome",
         "summary": "quotes-home",
         "description": "## Quotes Home\n\nScrapes featured and popular quotes from the Goodreads quotes home page using the quotes home URL. Returns a curated collection of trending and highlighted quotes across all topics.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/quotes/home`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads quotes home page URL to scrape (e.g. `https://www.goodreads.com/quotes`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/quotes\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing featured and popular quotes from the Goodreads quotes home page.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  ...\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the response |\n| quotes | array | List of featured/popular quotes, each with quote text, author, source book, and like count |",
         "responses": {
@@ -2853,9 +2853,9 @@
         }
       }
     },
-    "/#post6": {
+    "/api/quotes/slug": {
       "post": {
-        "operationId": "post6",
+        "operationId": "postApiQuotesSlug",
         "summary": "quotes-slug",
         "description": "## Quotes Search\n\nScrapes quotes from a Goodreads quotes tag or slug page using a direct tag URL. Returns a collection of quotes associated with the specified tag or topic.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/quotes/slug`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads quotes tag page URL to scrape (e.g. `https://www.goodreads.com/quotes/tag/love`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/quotes/tag/love\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing quotes scraped from the specified tag page.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  ...\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the response |\n| tag | string | The tag or slug used to filter quotes |\n| quotes | array | List of quotes from the tag page, each with quote text, author, and like count |",
         "responses": {
@@ -3519,9 +3519,9 @@
         }
       }
     },
-    "/#post7": {
+    "/api/works/questions": {
       "post": {
-        "operationId": "post7",
+        "operationId": "postApiWorksQuestions",
         "summary": "questions-scraper",
         "description": "## Questions Scraper\n\nScrapes community Q&A questions for a book from its Goodreads questions page. Returns a list of questions and answers submitted by the Goodreads community.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/works/questions`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads book questions page URL (e.g. `https://www.goodreads.com/book/5907/questions`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/book/5907/questions\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing the scraped questions and answers.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  \"scrapeURL\": \"string\",\n  \"questions\": [\n    {\n      \"question\": \"string\",\n      \"askedBy\": \"string\",\n      \"answers\": [\n        {\n          \"answer\": \"string\",\n          \"answeredBy\": \"string\",\n          \"likes\": \"string\"\n        }\n      ]\n    }\n  ]\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the scrape operation |\n| scrapeURL | string | The Goodreads URL that was scraped |\n| questions | array | List of community questions for the book |\n| questions[].question | string | The question text |\n| questions[].askedBy | string | Username of the person who asked the question |\n| questions[].answers | array | List of answers to the question |\n| questions[].answers[].answer | string | The answer text |\n| questions[].answers[].answeredBy | string | Username of the person who answered |\n| questions[].answers[].likes | string | Number of likes on the answer |",
         "responses": {
@@ -3804,9 +3804,9 @@
         }
       }
     },
-    "/#post8": {
+    "/api/works/quotes": {
       "post": {
-        "operationId": "post8",
+        "operationId": "postApiWorksQuotes",
         "summary": "quotes-scraper",
         "description": "## Quotes Scraper\n\nScrapes quotes associated with a specific book work from its Goodreads quotes page. Returns a list of quotes with attribution and like counts.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/works/quotes`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads work quotes page URL (e.g. `https://www.goodreads.com/work/quotes/1540236`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/work/quotes/1540236\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing the scraped quotes.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  \"scrapeURL\": \"string\",\n  \"quotes\": [\n    {\n      \"quote\": \"string\",\n      \"author\": \"string\",\n      \"likes\": \"string\",\n      \"tags\": [\"string\"]\n    }\n  ]\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the scrape operation |\n| scrapeURL | string | The Goodreads URL that was scraped |\n| quotes | array | List of quotes from the book |\n| quotes[].quote | string | The quote text |\n| quotes[].author | string | The author attributed to the quote |\n| quotes[].likes | string | Number of likes the quote has received |\n| quotes[].tags | array | List of tags associated with the quote |",
         "responses": {
@@ -4183,9 +4183,9 @@
         }
       }
     },
-    "/#post9": {
+    "/api/works/editions": {
       "post": {
-        "operationId": "post9",
+        "operationId": "postApiWorksEditions",
         "summary": "editions-scraper",
         "description": "## Editions Scraper\n\nScrapes all available editions of a specific book work from its Goodreads editions page using a direct work editions URL. Returns structured metadata about each edition including format, language, publisher, and ISBN details.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/works/editions`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads work editions page URL (e.g. `https://www.goodreads.com/work/editions/1540236`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/work/editions/1540236\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing all editions of the specified book work.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  ...\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the scrape operation |\n| scrapeURL | string | The Goodreads URL that was scraped |\n| editions | array | List of editions of the book |\n| editions[].title | string | Title of the edition |\n| editions[].format | string | Format of the edition (e.g. Hardcover, Paperback, ebook) |\n| editions[].language | string | Language the edition is published in |\n| editions[].publisher | string | Publisher of the edition |\n| editions[].isbn | string | ISBN identifier for the edition |\n| editions[].coverImage | string | URL of the edition cover image |",
         "responses": {
@@ -4502,9 +4502,9 @@
         }
       }
     },
-    "/#post10": {
+    "/api/search/books": {
       "post": {
-        "operationId": "post10",
+        "operationId": "postApiSearchBooks",
         "summary": "search-books",
         "description": "## Search Books\n\nSearches Goodreads for books matching a given query string. Returns a list of matching books with their metadata, useful for discovering books by title, author, or keyword.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/search/books`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| query | string | Yes | The search term to look up on Goodreads (e.g. `\"Harry Potter\"`) |\n\n**Example Body:**\n\n```json\n{\n  \"query\": \"Harry Potter\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing a list of books matching the search query.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  ...\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the response |\n| results | array | List of books matching the search query, each with title, author, cover image, and Goodreads URL |",
         "responses": {
@@ -4713,9 +4713,9 @@
         }
       }
     },
-    "/#post11": {
+    "/api/book-scraper": {
       "post": {
-        "operationId": "post11",
+        "operationId": "postApiBook-scraper",
         "summary": "book-scraper",
         "description": "## Book Scraper\n\nScrapes detailed book metadata from a Goodreads book page using a direct book URL. Returns structured information about the book including title, author(s), cover image, series details, and more.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/book-scraper`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads book page URL to scrape (e.g. `https://www.goodreads.com/book/show/5907`) |\n\n**Example Body:**\n\n``` json\n{\n  \"queryURL\": \"https://www.goodreads.com/book/show/5907\"\n}\n\n ```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing the scraped book metadata.\n\n``` json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  \"source\": \"string (GitHub source URL)\",\n  \"scrapeURL\": \"string (the Goodreads book URL that was scraped)\",\n  \"legacyBookID\": \"number\",\n  \"bookID\": \"string (KCA book ID)\",\n  \"resourceID\": \"string (KCA work ID)\",\n  \"cover\": \"string (image URL)\",\n  \"series\": \"string\",\n  \"seriesURL\": \"string\",\n  \"seriesPosition\": \"string\",\n  \"workURL\": \"string\",\n  \"title\": \"string\",\n  \"author\": [\n    {\n      \"id\": \"number\",\n      \"name\": \"string\",\n      \"role\": \"string (e.g. Author, Editor, Illustrator)\",\n      \"url\": \"string\"\n    }\n  ]\n}\n\n ```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message (e.g. `\"Received\"`) |\n| statusCode | number | HTTP status code of the scrape operation |\n| source | string | URL pointing to the GitHub source of the scraper |\n| scrapeURL | string | The Goodreads book URL that was scraped |\n| legacyBookID | number | The legacy numeric Goodreads book ID |\n| bookID | string | KCA-format book identifier |\n| resourceID | string | KCA-format work identifier |\n| cover | string | URL of the book's cover image |\n| series | string | Name of the series the book belongs to (if any) |\n| seriesURL | string | URL to the series page on Goodreads |\n| seriesPosition | string | Position of the book within the series |\n| workURL | string | URL to the book's work page on Goodreads |\n| title | string | Title of the book |\n| author | array | List of contributors (authors, editors, illustrators, etc.) |\n| author\\[\\].id | number | Goodreads author ID |\n| author\\[\\].name | string | Full name of the contributor |\n| author\\[\\].role | string | Role of the contributor (e.g. `Author`, `Editor`, `Illustrator`) |\n| author\\[\\].url | string | URL to the contributor's Goodreads profile |",
         "responses": {
@@ -5069,9 +5069,9 @@
         }
       }
     },
-    "/#post12": {
+    "/api/reviews-scraper": {
       "post": {
-        "operationId": "post12",
+        "operationId": "postApiReviews-scraper",
         "summary": "reviews-scraper",
         "description": "## Reviews Scraper\n\nScrapes reader reviews for a book from a Goodreads book page using a direct book URL. Returns structured review data including reviewer details, ratings, and review text.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/reviews-scraper`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads book page URL to scrape reviews from (e.g. `https://www.goodreads.com/book/show/5907`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/book/show/5907\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing the scraped reviews for the specified book.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  ...\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the response |\n| reviews | array | List of reader reviews, each with reviewer name, star rating, review text, and date |",
         "responses": {
@@ -5962,9 +5962,9 @@
         }
       }
     },
-    "/#post13": {
+    "/api/similar-scraper": {
       "post": {
-        "operationId": "post13",
+        "operationId": "postApiSimilar-scraper",
         "summary": "similar-scraper",
         "description": "## Similar Scraper\n\nScrapes similar and related book recommendations from a Goodreads book page using a direct book URL. Returns structured information about books that Goodreads recommends as similar reads.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/similar-scraper`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads book page URL to scrape similar books from (e.g. `https://www.goodreads.com/book/show/5907`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/book/show/5907\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing a list of similar books scraped from the page.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  ...\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the response |\n| similarBooks | array | List of similar/related books recommended on the page |",
         "responses": {
@@ -6303,9 +6303,9 @@
         }
       }
     },
-    "/#post14": {
+    "/api/series-scraper": {
       "post": {
-        "operationId": "post14",
+        "operationId": "postApiSeries-scraper",
         "summary": "series-scraper",
         "description": "## Series Scraper\n\nScrapes series information and all books belonging to a series from a Goodreads series page using a direct series URL. Returns structured metadata about the series and each book within it.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/series-scraper`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads series page URL to scrape (e.g. `https://www.goodreads.com/series/45175-harry-potter`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/series/45175-harry-potter\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing the series metadata and all books in the series.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  ...\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the response |\n| seriesTitle | string | Name of the book series |\n| seriesDescription | string | Description or overview of the series |\n| books | array | Ordered list of books in the series, each with title, author, cover image, and Goodreads URL |",
         "responses": {
@@ -6345,9 +6345,9 @@
         }
       }
     },
-    "/#post15": {
+    "/api/list-scraper": {
       "post": {
-        "operationId": "post15",
+        "operationId": "postApiList-scraper",
         "summary": "list-scraper",
         "description": "## List Scraper\n\nScrapes books from a Goodreads community-curated reading list using a direct list URL. Returns the list title, description, and all books included in the list along with their rankings.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/list-scraper`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The full Goodreads list page URL to scrape (e.g. `https://www.goodreads.com/list/show/18834.BBC_Top_200_Books`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/list/show/18834.BBC_Top_200_Books\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing the list metadata and all books with their rankings.\n\n```json\n{\n  \"status\": \"Received\",\n  \"statusCode\": 200,\n  ...\n}\n```\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| statusCode | number | HTTP status code of the response |\n| listTitle | string | Title of the Goodreads reading list |\n| listDescription | string | Description or summary of the reading list |\n| books | array | All books in the list, each with ranking and metadata |",
         "responses": {
@@ -7413,6 +7413,11 @@
       }
     }
   },
+  "servers": [
+    {
+      "url": "https://api"
+    }
+  ],
   "tags": [
     {
       "name": "author"
