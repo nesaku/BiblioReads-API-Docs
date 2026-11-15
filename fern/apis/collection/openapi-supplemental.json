@@ -1,0 +1,382 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API Endpoints",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/search/lists": {
+      "post": {
+        "operationId": "postApiSearchLists",
+        "summary": "search-lists",
+        "description": "## Search Lists\n\nSearches Goodreads for community lists matching a given query using a Goodreads search URL. Returns a list of matching lists with their metadata.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/search/lists`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The Goodreads search URL to scrape (e.g. `https://www.goodreads.com/search?q=fantasy`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/search?q=fantasy\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing a list of lists matching the search query.\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| version | string | The BiblioReads version that served the request |\n| source | string | The BiblioReads source repository URL |\n| scrapeURL | string | The Goodreads search URL that was scraped |\n| searchType | string | The search type (`lists`) |\n| numberOfResults | string | The number of results reported by Goodreads |\n| result | array | List of community lists matching the search query, each with cover image, title, list URL, and rating summary |\n| lastScraped | string | ISO 8601 timestamp of when the data was scraped |",
+        "x-fern-sdk-method-name": "search-lists",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "queryURL"
+                ]
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/search?q=fantasy"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "public, s-maxage=600, stale-while-revalidate=1800"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "scrapeURL": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "searchType": {
+                      "type": "string"
+                    },
+                    "numberOfResults": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "cover": {
+                            "type": "string",
+                            "format": "uri"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "listURL": {
+                            "type": "string"
+                          },
+                          "rating": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "cover",
+                          "title",
+                          "listURL",
+                          "rating"
+                        ]
+                      }
+                    },
+                    "lastScraped": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "version",
+                    "source",
+                    "scrapeURL",
+                    "searchType",
+                    "numberOfResults",
+                    "result",
+                    "lastScraped"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/search/quotes": {
+      "post": {
+        "operationId": "postApiSearchQuotes",
+        "summary": "search-quotes",
+        "description": "## Search Quotes\n\nSearches Goodreads for quotes matching a given query using a Goodreads search URL. Returns a list of matching quotes with their metadata.\n\n---\n\n## Request\n\n**Method:** `POST`  \n**URL:** `{{Instance Domain}}/api/search/quotes`\n\n### Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| Content-Type | application/json | Indicates the request body is JSON |\n\n### Body\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| queryURL | string | Yes | The Goodreads search URL to scrape (e.g. `https://www.goodreads.com/search?q=love`) |\n\n**Example Body:**\n\n```json\n{\n  \"queryURL\": \"https://www.goodreads.com/search?q=love\"\n}\n```\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object containing a list of quotes matching the search query.\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status | string | Human-readable status message |\n| version | string | The BiblioReads version that served the request |\n| source | string | The BiblioReads source repository URL |\n| scrapeURL | string | The Goodreads search URL that was scraped |\n| searchType | string | The search type (`quotes`) |\n| numberOfResults | string | The number of results reported by Goodreads |\n| quotes | array | List of quotes matching the search query, each with author image, plain and HTML quote text, and like count |\n| lastScraped | string | ISO 8601 timestamp of when the data was scraped |",
+        "x-fern-sdk-method-name": "search-quotes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queryURL": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "queryURL"
+                ]
+              },
+              "example": {
+                "queryURL": "https://www.goodreads.com/search?q=love"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "public, s-maxage=600, stale-while-revalidate=1800"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "scrapeURL": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "searchType": {
+                      "type": "string"
+                    },
+                    "numberOfResults": {
+                      "type": "string"
+                    },
+                    "quotes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "img": {
+                            "type": "string",
+                            "format": "uri"
+                          },
+                          "imgAlt": {
+                            "type": "string"
+                          },
+                          "rawText": {
+                            "type": "string"
+                          },
+                          "text": {
+                            "type": "string"
+                          },
+                          "likes": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "img",
+                          "imgAlt",
+                          "rawText",
+                          "text",
+                          "likes"
+                        ]
+                      }
+                    },
+                    "lastScraped": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "version",
+                    "source",
+                    "scrapeURL",
+                    "searchType",
+                    "numberOfResults",
+                    "quotes",
+                    "lastScraped"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/status": {
+      "get": {
+        "operationId": "getApiStatus",
+        "summary": "status",
+        "description": "## Status\n\nReturns the health status and version information of the BiblioReads instance. Use it to check that an instance is up and to see which BiblioReads version it runs.\n\n---\n\n## Request\n\n**Method:** `GET`  \n**URL:** `{{Instance Domain}}/api/status`\n\n---\n\n## Response\n\n### 200 Success\n\nReturns a JSON object describing the instance status and version.\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| status_code | number | HTTP status code of the response |\n| status | string | Instance status (`ok` when healthy) |\n| timestamp | string | ISO 8601 timestamp of when the status was generated |\n| version | string | The BiblioReads version running on the instance |\n| date | string | Release date of the running version |\n| changelog | string | Link to the changelog entry for the running version |\n| repository_url | string | The BiblioReads source repository URL |",
+        "x-fern-sdk-method-name": "status",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "integer"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "version": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string"
+                    },
+                    "changelog": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "repository_url": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  },
+                  "required": [
+                    "status_code",
+                    "status",
+                    "timestamp",
+                    "version",
+                    "date",
+                    "changelog",
+                    "repository_url"
+                  ]
+                },
+                "example": {
+                  "status_code": 200,
+                  "status": "ok",
+                  "timestamp": "2026-11-15T17:54:09.285Z",
+                  "version": "BiblioReads v4.5.0",
+                  "date": "nov-6-2026",
+                  "changelog": "https://github.com/nesaku/BiblioReads/blob/main/CHANGELOG.md#450---nov-6-2026",
+                  "repository_url": "https://github.com/nesaku/BiblioReads"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/image-proxy": {
+      "get": {
+        "operationId": "getApiImage-proxy",
+        "summary": "image-proxy",
+        "description": "## Image Proxy\n\nFetches a Goodreads or Amazon-hosted cover image through the BiblioReads instance and streams it back, optionally converted to WebP. Images are limited to 10 MB.\n\n---\n\n## Request\n\n**Method:** `GET`  \n**URL:** `{{Instance Domain}}/api/image-proxy`\n\n### Query Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| url | string | Yes | The HTTPS image URL to proxy. Must be hosted on `gr-assets.com`, `goodreads.com`, `media-amazon.com`, or `ssl-images-amazon.com` |\n| output | string | No | Set to `webp` to convert the image to WebP |\n| maxage | string | No | Cache duration such as `30m`, `12h`, or `7d` (default `1d`, maximum 1 year) |\n\n---\n\n## Response\n\n### 200 Success\n\nReturns the binary image with its `Content-Type` (`image/avif`, `image/gif`, `image/jpeg`, `image/png`, or `image/webp`) and a `Cache-Control` header based on `maxage`.\n\n### Response Field Descriptions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| (body) | binary | The proxied image data |\n\n### Errors\n\n| Status | Description |\n| --- | --- |\n| 400 | `url` is missing, invalid, or not on an allowed host |\n| 404 | The upstream image was not found |\n| 405 | The request method is not `GET` |\n| 413 | The image exceeds the maximum allowed size |\n| 415 | The upstream content type is not a supported image type |\n| 502 | The upstream image could not be fetched |",
+        "x-fern-sdk-method-name": "image-proxy",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "example": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1474154022i/3.jpg"
+          },
+          {
+            "name": "output",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "webp"
+              ]
+            }
+          },
+          {
+            "name": "maxage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "1d"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "image/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "413": {
+            "description": "Content Too Large"
+          },
+          "415": {
+            "description": "Unsupported Media Type"
+          },
+          "502": {
+            "description": "Bad Gateway"
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://biblioreads.eu.org"
+    }
+  ]
+}
